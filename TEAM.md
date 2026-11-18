@@ -5,7 +5,7 @@
 - Tên nhóm: D2HL
 - Lớp: `L3A`
 - Repo của bàn: **[K5-L3A-DAY10-NhomD2HL-PoCtoPilotGate1](https://github.com/NgHuanLHd/K5-L3A-DAY10-NhomD2HL-PoCtoPilotGate1)**
-- Thẻ sự cố đã bốc (S1–S8):
+- Thẻ sự cố đã bốc (S1–S8): S4
 
 ## Thành viên
 

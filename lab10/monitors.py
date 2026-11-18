@@ -19,7 +19,33 @@ def escalation_rate(trials):
     return sum(t["status"] == "escalated" for t in trials) / max(1, len(trials))
 
 
+def peak_review_load_per_hour(trials):
+    """Vận hành (S4): số ca vào hàng chờ người duyệt nhiều nhất trong một cửa sổ 60 phút bất kỳ của một ngày vận hành
+    (trung bình qua các seed). So với sức duyệt: 1 người = 6 ca/giờ. Không cần nhãn."""
+    days = {}
+    for t in trials:
+        if t.get("review_kind") and t.get("arrive_min") is not None:
+            days.setdefault((t.get("seed"), t.get("day")), []).append(t["arrive_min"])
+    if not days:
+        return 0.0
+    peaks = []
+    for mins in days.values():
+        mins.sort()
+        peaks.append(max(sum(1 for m in mins if start <= m < start + 60) for start in mins))
+    return round(sum(peaks) / len(peaks), 2)
+
+
+def fail_open_rate(trials):
+    """Kỹ thuật (S4): tỉ lệ trial mà LLM lỗi ở bước kiểm chính sách và agent rơi vào đường 'fail-open'
+    (hoàn phí ship không qua kiểm). Không cần nhãn: đọc sự kiện llm_fallback trong trace."""
+    hit = sum(any(e.get("type") == "llm_fallback" and e.get("mode") == "fail_open" for e in t["events"])
+              for t in trials)
+    return round(hit / max(1, len(trials)), 4)
+
+
 MONITORS = {
     "escalation_rate": escalation_rate,     # có sẵn; KHÔNG tính là metric mới của đội
+    "peak_review_load_per_hour": peak_review_load_per_hour,
+    "fail_open_rate": fail_open_rate,
 }
 STARTER_MONITORS = ("escalation_rate",)

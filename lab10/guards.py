@@ -82,12 +82,19 @@ def write_gate(ctx, action):
                     return Verdict.escalate("LLM lỗi và khoản hoàn vượt hạn mức tự động: chuyển người duyệt")
                 return Verdict.modify("LLM lỗi: đặt số tiền theo DB, dùng phê duyệt hợp lệ của ticket",
                                       amount_vnd=owed, approval_id=valid[0]["approval_id"])
-            if action["amount_vnd"] != owed:
-                return Verdict.modify("LLM lỗi: đặt số tiền theo quyền lợi tính từ DB", amount_vnd=owed)
-        if action["amount_vnd"] > owed:
-            if owed <= 0:
+            target = owed
+        else:
+            if action["amount_vnd"] > owed and owed <= 0:
                 return Verdict.deny("theo tracking DB đơn chưa đủ điều kiện hoàn")
-            return Verdict.modify("hạ về mức chính sách cho phép", amount_vnd=owed)
+            target = min(action["amount_vnd"], owed)
+        # Vòng 2 · S4 (ngày sale 11.11): khoản hoàn TỰ ĐỘNG không được làm tổng trong ngày vượt ngân sách Finance của
+        # chính ngày đó (ops_limits, ngày sale chỉ 300.000đ); phần vượt phải có người duyệt.
+        if not action.get("approval_id"):
+            budget = ctx.tools.ops_limits().get("daily_auto_refund_budget_vnd")
+            if budget is not None and ctx.tools.auto_refund_today_vnd() + target > budget:
+                return Verdict.escalate("vượt ngân sách hoàn tự động trong ngày của Finance: chờ người duyệt")
+        if target != action["amount_vnd"]:
+            return Verdict.modify("đặt số tiền theo quyền lợi tính từ DB", amount_vnd=target)
 
     # Cổng 2 (B6 ★ ghi oan cho hãng · B4 WRONG/INCOMPLETE/PERTURBED/INCAPABLE): chỉ ghi lỗi hãng khi
     # tracking ghi nguyên nhân thuộc lỗi hãng, đúng kiện trễ, đúng số ngày, chưa ghi kiện này, chưa quá trần mỗi hãng

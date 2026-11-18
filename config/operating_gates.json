@@ -13,8 +13,8 @@
   "operations": {
     "pic": "NV-TUNG",
     "approver_id": "NV-HANH",
-    "reviewers_on_shift": 1,
-    "review_capacity_per_hour": 6,
+    "reviewers_on_shift": 2,
+    "review_capacity_per_hour": 12,
     "max_queue_wait_minutes": 60,
     "stop_conditions": [
       "Khi có 1 lỗi ghi oan cho hãng hoặc 1 thông báo lộ dữ liệu cá nhân trong ngày thì NV-TUNG tắt file_carrier_fault và notify_carrier trong 15 phút",
