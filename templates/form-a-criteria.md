@@ -1,6 +1,6 @@
 # Phiếu A · Tiêu chí và cách đo · Khối 1 (phút 15–65)
 
-**Bàn:** ______ · **Người cầm bút chính:** vai Sản phẩm và kinh doanh (câu 1.3: Kỹ sư cổng; câu 1.2, 1.4: Vận hành và pháp lý)
+**Bàn:** K5-L3A-DAY10-NhomD2HL-PoCtoPilotGate1 · **Người cầm bút chính:** vai Sản phẩm và kinh doanh (câu 1.3: Kỹ sư cổng; câu 1.2, 1.4: Vận hành và pháp lý)
 
 Điền phiếu này **trước khi chạy trợ lý lần nào**. Viết xong thì chép ngưỡng sang `config/acceptance_criteria.json`, ký ở phút 60–65,
 rồi mới chạy đánh giá. Khối 1 không sửa code.
@@ -48,12 +48,12 @@ trợ lý có đang gây thiệt hại cho bên ngoài LogiX không; không có 
 
 | | Offline, cho MỘT bước (câu 1.3) | Telemetry production (câu 1.4) |
 |---|---|---|
-| **Bước / hành vi được đo** | | |
-| **Thước đo** (một câu, có đơn vị) | | |
-| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | | |
-| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | | |
+| **Bước / hành vi được đo** | Bước **ghi lỗi hãng**: lệnh `file_carrier_fault` (chọn hãng, kiện, số ngày trễ để phạt hãng vận chuyển) | |
+| **Thước đo** (một câu, có đơn vị) | Tỉ lệ lệnh ghi lỗi hãng sai (%): phần trăm lệnh `file_carrier_fault` đã ghi mà cặp (hãng, kiện) không khớp nhãn, tức ghi oan, sai hãng hoặc sai kiện | |
+| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | Sự kiện `{"type": "tool", "tool": "file_carrier_fault"}` trong `runs/<mã lần chạy>/traces/<ticket>@<seed>.json`; nhãn `label.faults` trong `data/tickets.jsonl`. Bộ nền: 22 ticket × 5 seed = 110 lần chạy. Nhãn do kế toán đối soát (chị Oanh, NV-OANH) gán từ tracking DB: kiện bị trễ, `carrier_id` của kiện đó, `delay_cause` có thuộc `fault_causes` của chính sách đang hiệu lực (REFUND-v3) không | |
+| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | Tử số: số lệnh ghi có cặp (`carrier_id`, `parcel_id`) **không** nằm trong `label.faults` của cùng ticket. Mẫu số: tổng số lệnh `file_carrier_fault` thực sự được ghi (lệnh bị cổng chặn hoặc bị bỏ không tính). Đếm riêng, không gộp: số lỗi đúng trong nhãn mà trợ lý **bỏ sót**, và số lần chạy dừng trước bước ghi lỗi (chuyển người, từ chối). Mẫu số = 0 thì ghi "không áp dụng", không ghi 0% | |
 | **Khung thời gian / ngưỡng báo động** | (không áp dụng) | |
-| **Điểm mù** (thước đo này KHÔNG thấy gì) | | |
+| **Điểm mù** (thước đo này KHÔNG thấy gì) | Không thấy khi chính tracking DB ghi sai nguyên nhân (nhãn cũng sai theo). Đếm từng lệnh nên không thấy tác hại dồn lại: GHSH bị đình chỉ sau 3 lỗi trong 7 ngày. Nhãn gắn với REFUND-v3; từ 01/12 (v4: trễ do bất khả kháng không ghi lỗi hãng) phải gán nhãn lại | |
 
 **Ví dụ mẫu (bước "chọn độ trễ" của agent, đừng chép):**
 Thước đo: tỉ lệ lần chạy mà độ trễ agent dùng để tính tiền khác độ trễ theo tracking DB. Dữ liệu: sự kiện `proposal.delay_days_used`
