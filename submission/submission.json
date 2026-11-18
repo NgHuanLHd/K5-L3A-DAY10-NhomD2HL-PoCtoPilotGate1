@@ -1,12 +1,17 @@
 {
-  "team": "",
-  "members": [],
-  "incident": "",
-  "decision_v1": "",
-  "decision_v2": "",
+  "team": "K5-L3A-DAY10-NhomD2HL-PoCtoPilotGate1",
+  "members": [
+    "NguyenDucHuan-2A202603690",
+    "NguyenThiDuyen-2A202603698",
+    "VuGiaLinh-2A202603677",
+    "VoThiKimHuyen-2A202603679"
+  ],
+  "incident": "S4",
+  "decision_v1": "Tiếp tục",
+  "decision_v2": "Tiếp tục",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Thiết kế giả định ngày sale ca chuyển người dồn không quá sức 2 người trực (12 ca/giờ) và người thứ hai luôn có mặt; trên gói S4 đỉnh đo được đã là 16 ca/giờ trong 60 phút, chỉ không ùn nhờ dồn ngắn, nên một đợt sale dồn dài hơn hoặc thiếu người thứ hai sẽ làm ca chờ quá 60 phút.",
+    "reduce_or_prevent": "Cổng code NGĂN hoàn sai, lỗi oan cho hãng và hoàn tự động vượt ngân sách của ngày, vì nó tính tất định từ tracking DB, chính sách và ops_limits mà không cần LLM (S4 after: 0đ hoàn sai, 0 lỗi oan, 292.000đ ≤ 300.000đ dù LLM lỗi ở 18,5% trial); còn hàng chờ chỉ được GIẢM bằng thêm người (0 ca ùn, chờ lâu nhất 15 phút) vì tải đỉnh vẫn có thể vượt 12 ca/giờ.",
+    "measure_in_pilot": "Đo lại sức duyệt thật mỗi giờ của chị Hạnh và người trực thứ hai (mock giả định 10 phút/ca, 4 phút khi có ghi chú), tải đỉnh của một ngày sale thật bằng peak_review_load_per_hour, và tỉ lệ LLM lỗi 429 thật (mock 60% lượt kiểm chính sách), để biết 2 người còn đủ và ROI (0,37 trên S4) có giữ trên 0,3 không."
   }
 }

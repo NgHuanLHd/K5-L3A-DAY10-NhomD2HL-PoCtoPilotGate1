@@ -448,30 +448,30 @@ Cột v1 nằm ở Phiếu B mục B8; không sửa cột đó.
 
 | | **v2** (phút 185–200, SAU sự cố) |
 |---|---|
-| Commit ký tiêu chí | phải giống v1 |
-| Hash chốt cổng vòng 1 | phải giống v1 |
-| Mã lần chạy dùng làm bằng chứng | thẻ, mốc base: ________ · prepared: ________ · after: ________ |
-| Còn dòng "vượt trần" nào trong report? (hàng chờ, chi phí, ROI, trần tiền, pháp lý) | |
-| Kho hoặc hãng có số xấu nhất: ____. Nếu chỉ nhìn phân khúc này, quyết định có đổi không? *(Khối "theo kho và hãng" trong output `lab10.eval` / `lab10.grade`, hoặc mục `by_segment` trong `report.json`.)* | |
-| Quyết định (khoanh một) | Tiếp tục · Thu hẹp · Cải tiến thêm · Dừng |
-| Bằng chứng 1: mã lần chạy + chỉ số bắt buộc nào đạt / chưa | |
-| Bằng chứng 2 | |
-| Bằng chứng 3 | |
-| Khớp dòng nào trong `decision_rule` đã ký? | |
-| Nếu Thu hẹp: cắt kho nào / còn bao nhiêu phần trăm / mấy người trực, và ticket bị cắt đi đâu | |
-| Nếu Cải tiến thêm: giả thuyết cụ thể (nhánh nào của fault tree) + hạn | |
-| Nếu Dừng: bài học ghi lại | |
-| Ngày quyết định lại (trừ khi Dừng) | |
-| PIC ký | |
+| Commit ký tiêu chí | `904ea7f` · hash tiêu chí `2d999e0e` (giống v1, report: "KHÔNG ĐỔI") |
+| Hash chốt cổng vòng 1 | `395e64ae` (giống v1, report: "đã chốt, còn nguyên") |
+| Mã lần chạy dùng làm bằng chứng | thẻ, mốc base: `R-S4-before-20261118-172100-c42f81` · prepared: `R-S4-prepared-20261118-172100-c42f81` · after: `R-S4-after-20261118-172100-c42f81` (grade `R-S4-grade-20261118-172100-c42f81`) |
+| Còn dòng "vượt trần" nào trong report? (hàng chờ, chi phí, ROI, trần tiền, pháp lý) | **Không.** Report after: "Không vượt trần kinh doanh / vận hành nào". Hàng chờ 0 ca ùn, chờ lâu nhất 15 phút (≤ 60) · chi phí 7.296đ/ticket (≤ 8.000đ) · ROI 0,37 (≥ 0,3) · tổng hoàn tự động 292.000đ (≤ ngân sách ngày sale 300.000đ) · lỗi oan 0, lộ dữ liệu 0 |
+| Kho hoặc hãng có số xấu nhất: ____. Nếu chỉ nhìn phân khúc này, quyết định có đổi không? *(Khối "theo kho và hãng" trong output `lab10.eval` / `lab10.grade`, hoặc mục `by_segment` trong `report.json`.)* | **Kho DN** trên S4 after: pass_rate 1,0 nhưng **7.568đ/ticket**, cao nhất và sát trần 8.000đ (CT 4.241đ, HCM, HN thấp hơn); mọi hãng pass 1,0, 0 lỗi oan. Nếu chỉ nhìn DN thì vẫn dưới trần và dưới làm tay (10.000đ), nên **không đổi quyết định**; ghi làm phân khúc đầu tiên bị cắt nếu chi phí ngày sale vượt 8.000đ |
+| Quyết định (khoanh một) | **Tiếp tục** · Thu hẹp · Cải tiến thêm · Dừng |
+| Bằng chứng 1: mã lần chạy + chỉ số bắt buộc nào đạt / chưa | `R-S4-after-20261118-172100-c42f81` (gói S4): **cả 5 chỉ số bắt buộc đạt**: pass_rate 1,0 ≥ 0,9 · pass_k 1,0 ≥ 0,8 · hoàn sai 0đ · lỗi hãng oan 0 · lộ dữ liệu 0. Bộ nền `R-base-after-20261118-172053-c42f81`: cũng đạt cả 5, không ca nào mới hỏng (`5 regression ✅`) |
+| Bằng chứng 2 | **3 ngưỡng `business_ops` đã ký đều đạt trên gói S4**: `queue_stuck` 0 ≤ 0 (prepared là 5) · chi phí 7.296đ ≤ 8.000đ · ROI 0,37 ≥ 0,3; tổng hoàn tự động 292.000đ ≤ 300.000đ (prepared 422.000đ). Độ phủ pilot 1,0 |
+| Bằng chứng 3 | Report tự kiểm tra `R-S4-grade-20261118-172100-c42f81`: **PASS-VISIBLE**, integrity, criteria, visible, regression, monitor đều ✅; dòng kết luận: "Được phép cân nhắc 'Tiếp tục'". Hai chỉ số mới sáng đèn: `peak_review_load_per_hour` 1,0 (nền) so với 16,0 (S4), `fail_open_rate` 0 so với 0,1854 |
+| Khớp dòng nào trong `decision_rule` đã ký? | **"Tiếp tục: mọi ngưỡng required đạt trên bộ nền VÀ gói sự cố, không vượt trần business_ops nào, độ phủ pilot > 0."** Đủ cả ba vế: required đạt trên bộ nền và trên S4; không vượt trần `business_ops`; độ phủ 1,0. (Ngưỡng nên-có `escalation_rate_max` 0,35 không đạt trên S4 (0,5122); nó không thuộc `required` hay `business_ops` nên không chặn Tiếp tục, nhưng được ghi vào risk register C10) |
+| Nếu Thu hẹp: cắt kho nào / còn bao nhiêu phần trăm / mấy người trực, và ticket bị cắt đi đâu | (không áp dụng) · Phương án dự phòng đã ghi ở runbook: nếu `peak_review_load_per_hour` > 12 thì còn 50% ticket, 2 người trực, ticket bị cắt về CSKH làm tay; kho cắt đầu tiên là DN |
+| Nếu Cải tiến thêm: giả thuyết cụ thể (nhánh nào của fault tree) + hạn | (không áp dụng) |
+| Nếu Dừng: bài học ghi lại | (không áp dụng) |
+| Ngày quyết định lại (trừ khi Dừng) | **2026-12-02** (sau 2 tuần pilot, có số đo của ít nhất một ngày sale thật và đã qua ngày REFUND-v4 có hiệu lực 01/12) |
+| PIC ký | Nguyễn Thị Duyên (Sản phẩm và kinh doanh) · cả bàn đồng ý: Nguyễn Đức Huân, Võ Thị Kim Huyền, Vũ Gia Linh |
 
 **Chỉ ở v2**
-- Quyết định đổi hay giữ so với v1? Vì con số nào: …
-- Report tự kiểm tra: mã lần chạy `__________` · ô nào còn đỏ (nguyên nhân × tầng): …
-- Cổng vòng 1 (mốc prepared) đã đỡ được gì trước khi bàn biết sự cố, và bỏ sót gì: …
-- Report ghi "được phép cân nhắc Tiếp tục" hay "không đủ căn cứ"? Quyết định của bàn có khớp không: …
-- Một thứ bộ thử hôm nay chưa đo, và nó ảnh hưởng quyết định ra sao: …
+- Quyết định đổi hay giữ so với v1? Vì con số nào: **Giữ Tiếp tục**, nhưng nay **không còn điều kiện treo**: v1 chỉ có bằng chứng trên bộ nền, phần "VÀ gói sự cố" của `decision_rule` chưa đo. Ở v2 gói S4 đạt cả 5 chỉ số bắt buộc và 3 ngưỡng `business_ops` (0 ca ùn, 7.296đ, ROI 0,37). Điều kiện đi kèm: ngày sale trực 2 người, theo runbook phần 4–5.
+- Report tự kiểm tra: mã lần chạy `R-S4-grade-20261118-172100-c42f81` · ô nào còn đỏ (nguyên nhân × tầng): **không ô nào đỏ** ở after. Ô vàng (sát ngưỡng): ROI 0,37 và chi phí 7.296đ (kinh doanh × vận hành, do phí người trực thứ hai); `escalation_rate` 0,5122 > 0,35 (vận hành, do khoản vượt ngân sách chuyển người). Mục `4 hidden` chưa chạy (team chấm chạy sau).
+- Cổng vòng 1 (mốc prepared) đã đỡ được gì trước khi bàn biết sự cố, và bỏ sót gì: đỡ **toàn bộ phần đúng/sai và pháp lý**: pass_rate 0,8683 → 1,0, hoàn sai 160.000đ → 0, lỗi oan 27 → 0 (nhờ nhánh fail-open tính tiền theo DB và cổng lỗi hãng có căn cứ). Bỏ sót phần **vận hành và kinh doanh**: hàng chờ (5 ca ùn, 82 phút) vì config vẫn 1 người, và ngân sách ngày sale (422.000đ > 300.000đ) vì trần của bàn là con số cố định 1.500.000đ, không đọc ngân sách theo ngày.
+- Report ghi "được phép cân nhắc Tiếp tục" hay "không đủ căn cứ"? Quyết định của bàn có khớp không: Report after ghi **"Được phép cân nhắc 'Tiếp tục'"**; quyết định Tiếp tục của bàn **khớp**. (Ở mốc prepared report ghi "KHÔNG đủ căn cứ" vì `queue_stuck` = 5; bàn chỉ chọn Tiếp tục sau khi sửa.)
+- Một thứ bộ thử hôm nay chưa đo, và nó ảnh hưởng quyết định ra sao: **sức duyệt thật của người** (mock giả định 10 phút/ca, 4 phút có ghi chú) và **ngày sale có đỉnh dài hơn** (S4 chỉ dồn trong khoảng 1 giờ). Nếu người duyệt thật chậm hơn hoặc đỉnh kéo dài trên 12 ca/giờ, 2 người không đủ và quyết định phải chuyển sang Thu hẹp 50% ngày sale; vì vậy ngưỡng `peak_review_load_per_hour` > 12 đã được ghi sẵn trong runbook.
 
 **Ba dòng bắt buộc** (chép nguyên ba câu này sang `submission/submission.json`, mục `three_lines`)
-1. Một giả định về môi trường mà thiết kế của đội đang dựa vào, có thể sai ngoài thực tế: …
-2. Gate của đội chỉ GIẢM khả năng hay thực sự NGĂN được tác hại? Vì sao: …
-3. Vì data là mock, cần đo lại gì trong pilot thật trước Bước đánh giá 2: …
+1. Một giả định về môi trường mà thiết kế của đội đang dựa vào, có thể sai ngoài thực tế: Thiết kế giả định ngày sale ca chuyển người dồn không quá sức 2 người trực (12 ca/giờ) và người thứ hai luôn có mặt; trên gói S4 đỉnh đo được đã là 16 ca/giờ trong 60 phút, chỉ không ùn nhờ dồn ngắn, nên một đợt sale dồn dài hơn hoặc thiếu người thứ hai sẽ làm ca chờ quá 60 phút.
+2. Gate của đội chỉ GIẢM khả năng hay thực sự NGĂN được tác hại? Vì sao: Cổng code NGĂN hoàn sai, lỗi oan cho hãng và hoàn tự động vượt ngân sách của ngày, vì nó tính tất định từ tracking DB, chính sách và ops_limits mà không cần LLM (S4 after: 0đ hoàn sai, 0 lỗi oan, 292.000đ ≤ 300.000đ dù LLM lỗi ở 18,5% trial); còn hàng chờ chỉ được GIẢM bằng thêm người (0 ca ùn, chờ lâu nhất 15 phút) vì tải đỉnh vẫn có thể vượt 12 ca/giờ.
+3. Vì data là mock, cần đo lại gì trong pilot thật trước Bước đánh giá 2: Đo lại sức duyệt thật mỗi giờ của chị Hạnh và người trực thứ hai (mock giả định 10 phút/ca, 4 phút khi có ghi chú), tải đỉnh của một ngày sale thật bằng peak_review_load_per_hour, và tỉ lệ LLM lỗi 429 thật (mock 60% lượt kiểm chính sách), để biết 2 người còn đủ và ROI (0,37 trên S4) có giữ trên 0,3 không.
