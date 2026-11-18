@@ -1,22 +1,22 @@
-# Team
+# Team D2HL
 
 ## Thông tin nhóm
 
-- Tên nhóm (`TenNhom`, không dấu, không khoảng trắng):
-- Lớp: `L3A` / `L3B`
-- Repo của bàn: `K5-<L3A|L3B>-DAY10-<TenNhom>-PoCtoPilotGate1`
+- Tên nhóm: D2HL
+- Lớp: `L3A`
+- Repo của bàn: **[K5-L3A-DAY10-NhomD2HL-PoCtoPilotGate1](https://github.com/NgHuanLHd/K5-L3A-DAY10-NhomD2HL-PoCtoPilotGate1)**
 - Thẻ sự cố đã bốc (S1–S8):
 
 ## Thành viên
 
 Họ tên đầy đủ và MSSV của **mọi** thành viên; thêm dòng nếu cần. Vai: Kỹ sư cổng · Sản phẩm và kinh doanh · Vận hành và pháp lý (README mục 3, phút 0–15).
 
-| STT | Họ và tên | MSSV | Vai | Trưởng nhóm |
-| --: | --------- | ---- | --- | :---------: |
-|   1 |           |      |     |             |
-|   2 |           |      |     |             |
-|   3 |           |      |     |             |
-|   4 |           |      |     |             |
+| STT | Họ và tên        | MSSV        | Vai | Trưởng nhóm |
+| --: | ---------------- | ----------- | --- | :---------: |
+|   1 | Nguyễn Đức Huân  | 2A202603690 |     |             |
+|   2 | Nguyễn Thị Duyên | 2A202603698 |     |             |
+|   3 | Vũ Gia Linh      | 2A202603677 |     |             |
+|   4 | Võ Thị Kim Huyền | 2A202603679 |     |             |
 
 Ghi `members` trong `submission/submission.json` theo dạng `"HoVaTen-MSSV"`, khớp bảng trên.
 
